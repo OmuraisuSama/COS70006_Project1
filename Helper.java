@@ -71,7 +71,7 @@ public class Helper {
     // return "incorrect" if the rego provided is of the wrong format
     public String checkRegoNumber(String regoNumber, CarPark carPark) {
         // declare the regex format for rego number
-        final String regoNumberRegex = "^[A-Z]{1}[1-9]{4}";
+        final String regoNumberRegex = "^[A-Z]{1}[1-9]{4}$";
         // compile and match the patter to regoNumber
         Pattern pattern = Pattern.compile(regoNumberRegex);
         Matcher matcher = pattern.matcher(regoNumber);

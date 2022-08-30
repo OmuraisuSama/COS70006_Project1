@@ -38,21 +38,21 @@ public class Application {
 
 
     // ==================== TESTERS ============================
-        // test helper.millisecToTime()
-        Helper helper = new Helper();
-        System.out.println(helper.millisecToTime(864533555));
+        // // 4test helper.millisecToTime() => Done
+        // Helper helper = new Helper();
+        // System.out.println(helper.millisecToTime(864533555));
 
-        // test helper.checkRegoNumber()
-        Car car = new Car("T2345", "John", "Doe", true);
-        ParkingSlot parkingSlot = new ParkingSlot();
-        parkingSlot.setCar(car);
-        CarPark carPark = new CarPark();
-        carPark.addParkingSlot(parkingSlot);
-        System.out.println(helper.checkRegoNumber("T2345", carPark));
-        System.out.println(helper.checkRegoNumber("T1345", carPark));
-        System.out.println(helper.checkRegoNumber("T23452", carPark));
-        System.out.println(helper.checkRegoNumber("t2345", carPark));
-        System.out.println(helper.checkRegoNumber("T2a345", carPark));
+        // // test helper.checkRegoNumber() => Done
+        // Car car = new Car("T2345", "John", "Doe", true);
+        // ParkingSlot parkingSlot = new ParkingSlot();
+        // parkingSlot.setCar(car);
+        // CarPark carPark = new CarPark();
+        // carPark.addParkingSlot(parkingSlot);
+        // System.out.println(helper.checkRegoNumber("T2345", carPark));
+        // System.out.println(helper.checkRegoNumber("T1345", carPark));
+        // System.out.println(helper.checkRegoNumber("T23452", carPark));
+        // System.out.println(helper.checkRegoNumber("t2345", carPark));
+        // System.out.println(helper.checkRegoNumber("T2a345", carPark));
 
 
 
