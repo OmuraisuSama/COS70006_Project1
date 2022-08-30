@@ -2,6 +2,12 @@ import java.util.ArrayList;
 public class CarPark {
     private ArrayList<ParkingSlot> carPark = new ArrayList<ParkingSlot>();
 
+    // method to add new parking slot
+    public void addParkingSlot(ParkingSlot parkingSlot) {
+        carPark.add(parkingSlot);
+    }
+
+    // method to return the index number of a parking slot number
     public int getIndexOf(String slotNumber) {
         for (int i = 0; i < carPark.size(); i ++) {
             String curSlotNumber = carPark.get(i).getSlotNumber();
@@ -10,5 +16,17 @@ public class CarPark {
             }
         }
         return -1;
+    } // close getIndexOf()
+
+    // method to return the parkingSlot object given the index number
+    public ParkingSlot getParkingSlot(int index) {
+        return carPark.get(index);
     }
+
+    // method to return the number of parking slots
+    public int getSize() {
+        return carPark.size();
+    }
+
+
 }

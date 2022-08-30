@@ -23,10 +23,11 @@ public class ParkingSlot {
         return stringDuration;
     }
 
-    public String getRegoNumber(String slotNumber) {
+    public String getRegoNumber() {
         if (isOccupied) {
-
+            return car.getRegoNumber();
         }
+        return "";
     }
 
     // --------------- SETTERS -----------------
@@ -38,7 +39,9 @@ public class ParkingSlot {
         this.forStaff = forStaff;
     }
 
-    public void 
+    public void setCar(Car car) {
+        this.car = car;
+    }
 
 
 }
