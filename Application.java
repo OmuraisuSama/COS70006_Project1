@@ -38,24 +38,34 @@ public class Application {
 
 
     // ==================== TESTERS ============================
-        // // 4test helper.millisecToTime() => Done
-        // Helper helper = new Helper();
+        // variables needed for testing
+        Helper helper = new Helper();
+        Car car = new Car("T2345", "John", "Doe", true);
+        ParkingSlot parkingSlot = new ParkingSlot();
+        parkingSlot.setSlotNumber("A10");
+        parkingSlot.setCar(car);
+        CarPark carPark = new CarPark();
+        carPark.addParkingSlot(parkingSlot);
+        
+        // // 4test helper.millisecToTime() => Success
         // System.out.println(helper.millisecToTime(864533555));
 
-        // // test helper.checkRegoNumber() => Done
-        // Car car = new Car("T2345", "John", "Doe", true);
-        // ParkingSlot parkingSlot = new ParkingSlot();
-        // parkingSlot.setCar(car);
-        // CarPark carPark = new CarPark();
-        // carPark.addParkingSlot(parkingSlot);
-        // System.out.println(helper.checkRegoNumber("T2345", carPark));
-        // System.out.println(helper.checkRegoNumber("T1345", carPark));
-        // System.out.println(helper.checkRegoNumber("T23452", carPark));
-        // System.out.println(helper.checkRegoNumber("t2345", carPark));
-        // System.out.println(helper.checkRegoNumber("T2a345", carPark));
+        // // test helper.checkRegoNumber() => Success
+        // System.out.println("T2345: " + helper.checkRegoNumber("T2345", carPark));
+        // System.out.println("T1345: " + helper.checkRegoNumber("T1345", carPark));
+        // System.out.println("T23452: " + helper.checkRegoNumber("T23452", carPark));
+        // System.out.println("t2345: " + helper.checkRegoNumber("t2345", carPark));
+        // System.out.println("T2a345: " + helper.checkRegoNumber("T2a345", carPark));
 
-
-
+        // test helper.checkSlotNumber() => Success
+        // System.out.println("A10: " + helper.checkSlotNumber("A10", carPark));
+        // System.out.println("B11: " + helper.checkSlotNumber("B11", carPark));
+        // System.out.println("A11: " + helper.checkSlotNumber("A11", carPark));
+        // System.out.println("a10: " + helper.checkSlotNumber("a10", carPark));
+        // System.out.println("10A: " + helper.checkSlotNumber("10A", carPark));
+        // System.out.println("1A0: " + helper.checkSlotNumber("1A0", carPark));
+        // System.out.println("AA1: " + helper.checkSlotNumber("AA1", carPark));
+        // System.out.println("A110: " + helper.checkSlotNumber("A110", carPark));
 
     // ==========================================================
     } // close main()

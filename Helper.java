@@ -91,4 +91,36 @@ public class Helper {
         } // close if (matcher.find())
         return "incorrect";
     } // close checkRegoNumber() method
+
+    // ------------------- checkSlotNumber() ------------------------
+    // method to check the validity of parking slot number
+    // whether it is of the right format, eg. A10, B02
+    // AND whether it has already been added to the car park
+    // return "available" if the slot number is of correct format and hasn't been added
+    // return "unavailable" if the slot number is of correct format but has already been added
+    // return "incorrect" if the slot number provided is of the wrong format
+    public String checkSlotNumber(String slotNumber, CarPark carPark) {
+        // regex of slot number format
+        final String slotNumberRegex = "^[A-Z]{1}[0-9]{2}$";
+        // compile the regex string
+        Pattern pattern = Pattern.compile(slotNumberRegex);
+        Matcher matcher = pattern.matcher(slotNumber);
+
+        // if the slotNumber param has the correct format
+        if (matcher.find()) {
+            // loop through carPark to check if the slot number is already taken
+            for (int i = 0; i < carPark.getSize(); i ++) {
+                // the parking slot number in the current iteration
+                String currentSlotNumber = carPark.getParkingSlot(i).getSlotNumber();
+                // if the same slot number is already in carPark, return "unavailable"
+                if (currentSlotNumber.equals(slotNumber)) {
+                    return "unavailable";
+                } // close if
+            } // close for
+            // if slot number hasn't already been added to carPark, return "available"
+            return "available";
+        } // close if(matcher.find())
+        // return "incorrect" because the slotNumber param is not in the correct format
+        return"incorrect";
+    } // close checkSlotNumber() method
 }
