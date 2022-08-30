@@ -12,13 +12,12 @@ public class Car {
         this.isStaff = isStaff;
     }
 
-    // ----------- END CONSTRUCTORS ------------
-
+    // =========== END CONSTRUCTORS ============
 
     // --------------- GETTERS -----------------
     // method to get owner names
-    public String [] getNames() {
-        return {fName, lName};
+    public String getNames() {
+        return fName + lName;
     }
 
     // method to find if the car is a staff car
@@ -30,8 +29,7 @@ public class Car {
     public String getRegoNumber() {
         return regoNumber;
     }
-    // ------------- END GETTERS ---------------
-
+    // ============= END GETTERS ===============
 
     // --------------- SETTERS -----------------
     // method to set rego number
@@ -46,8 +44,8 @@ public class Car {
     }
 
     // method to set whether the car is a staff car
-    public void setForStaff(boolean forStaff) {
-        this.forStaff = forStaff;
+    public void setIsStaff(boolean isStaff) {
+        this.isStaff = isStaff;
     }
-    // ------------- END SETTERS ---------------
+    // ============= END SETTERS ================
 }
