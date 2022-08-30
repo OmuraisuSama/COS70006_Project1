@@ -41,6 +41,7 @@ public class ParkingSlot {
 
     public void setCar(Car car) {
         this.car = car;
+        isOccupied = true;
     }
 
 
