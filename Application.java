@@ -46,10 +46,13 @@ public class Application {
         ParkingSlot parkingSlot = new ParkingSlot();
         parkingSlot.setSlotNumber(slotNumber);
         parkingSlot.setCar(car);
+        ParkingSlot parkingSlot2 = new ParkingSlot("B52", true);
         CarPark carPark = new CarPark();
         carPark.addParkingSlot(parkingSlot);
+        carPark.addParkingSlot(parkingSlot2);
+
         
-        // // 4test helper.millisecToTime() => Success
+        // // test helper.millisecToTime() => Success
         // System.out.println(helper.millisecToTime(864533555));
 
         // // test helper.checkRegoNumber() => Success
@@ -59,7 +62,7 @@ public class Application {
         // System.out.println("t2345: " + helper.checkRegoNumber("t2345", carPark));
         // System.out.println("T2a345: " + helper.checkRegoNumber("T2a345", carPark));
 
-        // test helper.checkSlotNumber() => Success
+        // // test helper.checkSlotNumber() => Success
         // System.out.println("A10: " + helper.checkSlotNumber("A10", carPark));
         // System.out.println("B11: " + helper.checkSlotNumber("B11", carPark));
         // System.out.println("A11: " + helper.checkSlotNumber("A11", carPark));
@@ -69,7 +72,7 @@ public class Application {
         // System.out.println("AA1: " + helper.checkSlotNumber("AA1", carPark));
         // System.out.println("A110: " + helper.checkSlotNumber("A110", carPark));
 
-        // test carPark.deleteSlot() => Sucess
+        // // test carPark.deleteSlot() => Sucess
         // System.out.println("Before delete");
         // int slotIndex = carPark.getIndexOf(slotNumber);
         // System.out.println(carPark.getParkingSlot(slotIndex));
@@ -87,6 +90,17 @@ public class Application {
         // carPark.deleteSlot(slotNumber);
 
 
+        // test CarPark.getSlotInfo();
+        for (int i = 0; i < carPark.getSize(); i ++) {
+            for (int j = 0; j < 4; j ++) {
+                String cr = carPark.getSlotInfo(i)[j];
+                if (!cr.equals("")) {
+                    System.out.println(cr);
+                }
+            }
+            System.out.println();
+        }
+            
 
     // ==========================================================
     } // close main()

@@ -92,6 +92,7 @@ public class Helper {
         return "incorrect";
     } // close checkRegoNumber() method
 
+
     // ------------------- checkSlotNumber() ------------------------
     // method to check the validity of parking slot number
     // whether it is of the right format, eg. A10, B02

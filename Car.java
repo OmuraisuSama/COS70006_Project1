@@ -5,6 +5,7 @@ public class Car {
     private String regoNumber;
 
     // ------------ CONSTRUCTORS ---------------
+
     public Car(String regoNumber, String fName, String lName, boolean isStaff) {
         this.regoNumber = regoNumber;
         this.fName = fName;
@@ -18,6 +19,14 @@ public class Car {
     // method to get owner names
     public String getNames() {
         return fName + lName;
+    }
+
+    public String getFirstName() {
+        return fName;
+    }
+
+    public String getLastName() {
+        return lName;
     }
 
     // method to find if the car is a staff car

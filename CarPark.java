@@ -1,11 +1,13 @@
 import java.util.ArrayList;
 public class CarPark {
     private ArrayList<ParkingSlot> carPark = new ArrayList<ParkingSlot>();
+    
 
     // method to add new parking slot
     public void addParkingSlot(ParkingSlot parkingSlot) {
         carPark.add(parkingSlot);
     }
+
 
     // method to return the index number of a parking slot number
     public int getIndexOf(String slotNumber) {
@@ -17,6 +19,7 @@ public class CarPark {
         }
         return -1;
     } // close getIndexOf()
+
 
     // method to return the parkingSlot object given the index number
     public ParkingSlot getParkingSlot(int index) {
@@ -37,4 +40,35 @@ public class CarPark {
             System.out.println(slotNumber + " parking slot does not exist.");
         }
     }
-}
+
+    // method to get info about a parking slot
+    // param: index number of the parking slot in carPark
+    // return {parking slot number, rego number, fName, lName, type, parking starts, parking duration}
+    public String [] getSlotInfo(int slotIndex) {
+        ParkingSlot currentSlot = getParkingSlot(slotIndex);
+        String slotNumber = currentSlot.getSlotNumber();
+        String regoNumber = "";
+        String fName = "";
+        String lName = "";
+        String type = "";
+        String parkingStarts = "";
+        String parkingDuration = "";
+
+        // get info incase the slot is occupied
+        if (currentSlot.isOccupied()) {
+            regoNumber = currentSlot.getRegoNumber();
+            fName = currentSlot.getCar().getFirstName();
+            lName = currentSlot.getCar().getLastName();
+
+            if (currentSlot.getCar().isStaff()) type = "staff";
+            else type = "visitor";
+
+            parkingStarts = currentSlot.getParkingStarts();
+            parkingDuration = currentSlot.getDuration();
+        }
+
+        String [] result = {slotNumber, regoNumber, fName, lName, type, parkingStarts, parkingDuration};
+        return result;
+    }
+
+}  
