@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Application {
     private static Scanner sc = new Scanner(System.in);
@@ -39,21 +41,22 @@ public class Application {
 
     // ==================== TESTERS ============================
         // variables needed for testing
-        String slotNumber = "A10";
-        String regoNumber = "T2345";
-        Helper helper = new Helper();
-        Car car = new Car(regoNumber, "John", "Doe", true);
-        ParkingSlot parkingSlot = new ParkingSlot();
-        parkingSlot.setSlotNumber(slotNumber);
-        parkingSlot.setCar(car);
-        ParkingSlot parkingSlot2 = new ParkingSlot("B52", true);
-        CarPark carPark = new CarPark();
-        carPark.addParkingSlot(parkingSlot);
-        carPark.addParkingSlot(parkingSlot2);
+        // String slotNumber = "A10";
+        // String regoNumber = "T2345";
+        // Helper helper = new Helper();
+        // Car car = new Car(regoNumber, "John", "Doe", true);
+        // ParkingSlot parkingSlot = new ParkingSlot();
+        // parkingSlot.setSlotNumber(slotNumber);
+        // parkingSlot.setForStaff(true);
+        // parkingSlot.setCar(car);
+        // ParkingSlot parkingSlot2 = new ParkingSlot("B52", true);
+        // CarPark carPark = new CarPark();
+        // carPark.addParkingSlot(parkingSlot);
+        // carPark.addParkingSlot(parkingSlot2);
 
         
         // // test helper.millisecToTime() => Success
-        // System.out.println(helper.millisecToTime(864533555));
+        // System.out.println(helper.millisecToTime(67777));
 
         // // test helper.checkRegoNumber() => Success
         // System.out.println("T2345: " + helper.checkRegoNumber("T2345", carPark));
@@ -90,16 +93,24 @@ public class Application {
         // carPark.deleteSlot(slotNumber);
 
 
-        // test CarPark.getSlotInfo();
-        for (int i = 0; i < carPark.getSize(); i ++) {
-            for (int j = 0; j < 4; j ++) {
-                String cr = carPark.getSlotInfo(i)[j];
-                if (!cr.equals("")) {
-                    System.out.println(cr);
-                }
-            }
-            System.out.println();
-        }
+        // test CarPark.getSlotInfo(); => Success
+        // for (int i = 0; i < carPark.getSize(); i ++) {
+        //     for (int j = 0; j < 7; j ++) {
+        //         String cr = carPark.getSlotInfo(i)[j];
+        //         if (!cr.equals("")) {
+        //             System.out.println(cr);
+        //         }
+        //     }
+        //     System.out.println();
+        // }
+
+        // test date time formatter => Success
+        // String dateFormat = "EEE dd-MMM-yyyy hh:mm:ss a";
+        // DateTimeFormatter dtf = DateTimeFormatter.ofPattern(dateFormat);
+        // String dt = dtf.format(LocalDateTime.now());
+        // System.out.println(dt);
+
+
             
 
     // ==========================================================
