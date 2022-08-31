@@ -69,18 +69,22 @@ public class Application {
         // System.out.println("AA1: " + helper.checkSlotNumber("AA1", carPark));
         // System.out.println("A110: " + helper.checkSlotNumber("A110", carPark));
 
-        // test carPark.deleteSlot()
-        System.out.println("Before delete");
-        int slotIndex = carPark.getIndexOf(slotNumber)
-        System.out.println(carPark.getParkingSlot(slotIndex));
-        System.out.println("After delete");
-        carPark.deleteSlot(slotIndex);
-        slotIndex = carPark.getIndexOf(slotNumber);
-        if (slotIndex != -1) {
-            System.out.println(carPark.getParkingSlot(slotIndex));
-        } else {
-            System.out.println(slotNumber + " has been deleted.")
-        }
+        // test carPark.deleteSlot() => Sucess
+        // System.out.println("Before delete");
+        // int slotIndex = carPark.getIndexOf(slotNumber);
+        // System.out.println(carPark.getParkingSlot(slotIndex));
+        // System.out.println("After delete");
+        // // delete the slot number
+        // carPark.deleteSlot(slotNumber);
+        // slotIndex = carPark.getIndexOf(slotNumber);
+        // // check if slotNumber can be found
+        // if (slotIndex != -1) {
+        //     System.out.println(carPark.getParkingSlot(slotIndex));
+        // } else {
+        //     System.out.println(slotNumber + " has been deleted.");
+        // }
+        // // check if method will print (slotNumber + " does not exist")
+        // carPark.deleteSlot(slotNumber);
 
 
 

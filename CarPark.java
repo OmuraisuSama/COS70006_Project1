@@ -30,7 +30,7 @@ public class CarPark {
 
     // method to delete a parking slot
     public void deleteSlot(String slotNumber) {
-        int slotIndex = getIndexOd(slotNumber)
+        int slotIndex = getIndexOf(slotNumber);
         if (slotIndex != -1) {
             carPark.remove(slotIndex);
         } else {
