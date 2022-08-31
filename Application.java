@@ -39,10 +39,12 @@ public class Application {
 
     // ==================== TESTERS ============================
         // variables needed for testing
+        String slotNumber = "A10";
+        String regoNumber = "T2345";
         Helper helper = new Helper();
-        Car car = new Car("T2345", "John", "Doe", true);
+        Car car = new Car(regoNumber, "John", "Doe", true);
         ParkingSlot parkingSlot = new ParkingSlot();
-        parkingSlot.setSlotNumber("A10");
+        parkingSlot.setSlotNumber(slotNumber);
         parkingSlot.setCar(car);
         CarPark carPark = new CarPark();
         carPark.addParkingSlot(parkingSlot);
@@ -66,6 +68,21 @@ public class Application {
         // System.out.println("1A0: " + helper.checkSlotNumber("1A0", carPark));
         // System.out.println("AA1: " + helper.checkSlotNumber("AA1", carPark));
         // System.out.println("A110: " + helper.checkSlotNumber("A110", carPark));
+
+        // test carPark.deleteSlot()
+        System.out.println("Before delete");
+        int slotIndex = carPark.getIndexOf(slotNumber)
+        System.out.println(carPark.getParkingSlot(slotIndex));
+        System.out.println("After delete");
+        carPark.deleteSlot(slotIndex);
+        slotIndex = carPark.getIndexOf(slotNumber);
+        if (slotIndex != -1) {
+            System.out.println(carPark.getParkingSlot(slotIndex));
+        } else {
+            System.out.println(slotNumber + " has been deleted.")
+        }
+
+
 
     // ==========================================================
     } // close main()

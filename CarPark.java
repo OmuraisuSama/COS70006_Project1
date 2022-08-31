@@ -28,5 +28,13 @@ public class CarPark {
         return carPark.size();
     }
 
-
+    // method to delete a parking slot
+    public void deleteSlot(String slotNumber) {
+        int slotIndex = getIndexOd(slotNumber)
+        if (slotIndex != -1) {
+            carPark.remove(slotIndex);
+        } else {
+            System.out.println(slotNumber + " parking slot does not exist.");
+        }
+    }
 }
