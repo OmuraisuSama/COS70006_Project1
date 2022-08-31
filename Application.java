@@ -1,42 +1,47 @@
-import java.util.Scanner;
+// import java.util.Scanner;
 // import java.time.LocalDateTime; // for testing
 // import java.time.format.DateTimeFormatter; // for testing
 
 public class Application {
-    private static Scanner sc = new Scanner(System.in);
+    // private static Scanner sc = new Scanner(System.in);
+    private static Helper helper = new Helper();
+    private static Logics logics = new Logics();
+    private static CarPark carPark = new CarPark();
     public static void main(String[] args) {
-    //     boolean continueProgram = true;
-    //     int userChoice;
-    //     while (continueProgram) {
-    //         userChoice = displayMenu();
-    //         switch (userChoice) {
-    //             case 1:
-    //                 System.out.println("You want to add a new parking slot");
-    //                 break;
-    //             case 2:
-    //                 System.out.println("You want to delete a parking slot");
-    //                 break;
-    //             case 3:
-    //                 System.out.println("You want to list all parking slots.");
-    //                 break;
-    //             case 4:
-    //                 System.out.println("You want to park a car.");
-    //                 break;
-    //             case 5:
-    //                 System.out.println("You want to search for a car.");
-    //                 break;
-    //             case 6:
-    //                 System.out.println("You want to remove a car");
-    //                 break;
-    //             case 7:
-    //                 continueProgram = false;
-    //                 System.out.println("See ya!");
-    //                 break;
-    //             default:
-    //                 System.out.println("Please enter a number 1 - 7");
-    //                 break;
-    //         } // close switch()
-    //     } // close while()
+        boolean continueProgram = true;
+        int userChoice;
+        while (continueProgram) {
+            userChoice = helper.displayMenu();
+            switch (userChoice) {
+                case 1:
+                    System.out.println("You want to add a new parking slot");
+                    logics.addParkingSlot(carPark);
+                    break;
+                case 2:
+                    System.out.println("You want to delete a parking slot");
+                    break;
+                case 3:
+                    System.out.println("You want to list all parking slots.");
+                    break;
+                case 4:
+                    System.out.println("You want to park a car.");
+                    break;
+                case 5:
+                    System.out.println("You want to search for a car.");
+                    break;
+                case 6:
+                    System.out.println("You want to remove a car");
+                    break;
+                case 7:
+                    continueProgram = false;
+                    System.out.println("See ya!");
+                    break;
+                default:
+                    System.out.println("Please enter a number 1 - 7");
+                    break;
+            } // close switch()
+        } // close while()
+
 
 
     // ==================== TESTERS ============================
@@ -116,20 +121,67 @@ public class Application {
     // ==========================================================
     } // close main()
     
-    public static int displayMenu() {
-        int userChoice;
-
-        System.out.println("1. Add a parking slot.");
-        System.out.println("2. Remove a parking slot");
-        System.out.println("3. List all the parking slots");
-        System.out.println("4. Park a car");
-        System.out.println("5. Search for a car");
-        System.out.println("6. Remove a car");
-        System.out.println("7. Quit");
-        System.out.println("Your choice: ");
+    // public static void addParkingSlot() {
+    //     String userInput;
+    //     boolean invalidYesNo = true;
+    //     boolean invalidSlotNo = true;
+    //     String checkResult;
+    //     String message = "";
+    //     boolean forStaff = true;
         
-        userChoice = sc.nextInt();
-        return userChoice;
-    }
+    //     // ask user if the parking slot is for staff
+    //     do {
+    //         System.out.println("Is this parking slot for staff (y/n)");
+    //         userInput = sc.next();
+    //         // check for valid y/n answer
+    //         if (userInput.equalsIgnoreCase("n")) {
+    //             message = "This parking slot will be for visitor";
+    //             forStaff = false;
+    //             invalidYesNo = false;
+    //         } else if (userInput.equalsIgnoreCase("y")) {
+    //             message = "This parking slot will be for staff";
+    //             invalidYesNo = false;
+    //         } else {
+    //             message = "Please enter \"y\" or \"n\".";
+    //         }
+    //         System.out.println(message);
+    //     } while (invalidYesNo);
+
+    //     // check if the slot number entered is valid
+    //     // right format + is not yet created
+    //     do {
+    //         System.out.println("Enter the new parking slot number:");
+    //         userInput = sc.next();
+    //         checkResult = helper.checkSlotNumber(userInput, carPark);
+
+    //         if (checkResult.equals("incorrect")) {
+    //             message = "The parking slot number should contain an uppcase letter\nfollowed by two digits.";
+    //         } else if (checkResult.equals("unavailable")) {
+    //             message = "This number has already been assigned to a parking slot";
+    //         } else if (checkResult.equals("available")) {
+    //             invalidSlotNo = false;
+    //             ParkingSlot parkingSlot = new ParkingSlot(userInput, forStaff);
+    //             carPark.addParkingSlot(parkingSlot);
+    //             message = "Parking slot " + userInput + " has been created";
+    //         }
+    //         System.out.println(message);
+    //     } while (invalidSlotNo);
+    // }
+
+    // public static int displayMenu() {
+    //     int userChoice;
+
+    //     System.out.println("1. Add a parking slot.");
+    //     System.out.println("2. Remove a parking slot");
+    //     System.out.println("3. List all the parking slots");
+    //     System.out.println("4. Park a car");
+    //     System.out.println("5. Search for a car");
+    //     System.out.println("6. Remove a car");
+    //     System.out.println("7. Quit");
+    //     System.out.println("Your choice: ");
+        
+    //     userChoice = sc.nextInt();
+    //     return userChoice;
+    // }
     // sc.close();
 }
