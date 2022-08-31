@@ -46,9 +46,9 @@ public class Helper {
         // find the first non zero time unit
         for (int i = 0; i < intArrResult.length; i ++) {
             if (intArrResult[i] > 0) {
-                System.out.println("i " + i); // test
+//------------- System.out.println("i " + i); // test
                 nonZeroIndex = i;
-                System.out.println("nonZeroIndex: " + nonZeroIndex); // test
+//--------------System.out.println("nonZeroIndex: " + nonZeroIndex); // test
                 break;
             }
             
