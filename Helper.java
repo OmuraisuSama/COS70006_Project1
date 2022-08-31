@@ -13,7 +13,7 @@ public class Helper {
         // array to store result {days, hours, minutes, seconds}
         int [] intArrResult = {0, 0, 0, 0};
         // array to store name of units
-        final String [] unitArr = {"d:", "h.", "m.", "s"};
+        final String [] unitArr = {"d:", "h:", "m:", "s"};
         // declare converstion rates from millisecond
         final long msToDays = 86400000;
         final long msToHours = 3600000;
@@ -36,10 +36,13 @@ public class Helper {
         // find the number of minutes
         intArrResult[3] = (int)(remainder / msToSeconds);
 
-        // convert datetimeResult to string
-        // start from the first non zero unit
-        // 2H:23M:00S instead of 00D:2H:23M:00S
-        int nonZeroIndex = 0;
+        // convert number of milliseconds to string (eg, 60,000 ms to "01m.00s")
+        // by combining the value of intArrResult with unitArr
+        // nonZeroIndex is to find the first non zero time unit
+        // for example: 2H:23M:00S instead of 00D:2H:23M:00S (we don't want to have 0 days)
+        // however we want to show the minute event if it's zero (eg, 00m.23s)
+        // the minute value is the third value in intArrResult -> index = 2
+        int nonZeroIndex = 2;
         // find the first non zero time unit
         for (int i = 0; i < intArrResult.length; i ++) {
             if (intArrResult[i] > 0) {
@@ -59,8 +62,6 @@ public class Helper {
             result += intArrResult[i] + unitArr[i];
         } // close for()
 
-        // add final period
-        result += ".";
         return result;
     } // close millisecToTime() method
 
