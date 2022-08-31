@@ -13,7 +13,7 @@ public class Helper {
         // array to store result {days, hours, minutes, seconds}
         int [] intArrResult = {0, 0, 0, 0};
         // array to store name of units
-        final String [] unitArr = {"d : ", "h : ", "m : ", "s"};
+        final String [] unitArr = {"d:", "h.", "m.", "s"};
         // declare converstion rates from millisecond
         final long msToDays = 86400000;
         final long msToHours = 3600000;
@@ -42,10 +42,13 @@ public class Helper {
         int nonZeroIndex = 0;
         // find the first non zero time unit
         for (int i = 0; i < intArrResult.length; i ++) {
-            if (intArrResult[i] != 0) {
+            if (intArrResult[i] > 0) {
+                System.out.println("i " + i); // test
                 nonZeroIndex = i;
+                System.out.println("nonZeroIndex: " + nonZeroIndex); // test
                 break;
             }
+            
         } // close for()
         // format the final result
         for (int i = nonZeroIndex; i < intArrResult.length; i ++) {

@@ -10,7 +10,7 @@ public class ParkingSlot {
     private long msParkingStarts;
     private long msParkingEnds;
     // variable to get the formatted parking time
-    private final String dateTimeFormat = "E, dd MMM yyyy hh.mm.ss a";
+    private final String dateTimeFormat = "EEE, dd-MMM-yyyy hh.mm.ss a";
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern(dateTimeFormat);
     private String strParkingStarts;
     private String strParkingEnds;
