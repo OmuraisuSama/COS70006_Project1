@@ -26,12 +26,18 @@ public class CarPark {
         return carPark.get(index);
     }
 
+    // method to return the parkingSlot object given the parking slot number
+    public ParkingSlot getParkingSlot(String slotNumber) {
+        int objIndex = getIndexOf(slotNumber);
+        return carPark.get(objIndex);
+    }
+
     // method to return the number of parking slots
     public int getSize() {
         return carPark.size();
     }
 
-    // method to delete a parking slot
+    // method to delete a parking slot using slot number
     public void deleteSlot(String slotNumber) {
         int slotIndex = getIndexOf(slotNumber);
         if (slotIndex != -1) {
@@ -39,6 +45,11 @@ public class CarPark {
         } else {
             System.out.println(slotNumber + " parking slot does not exist.");
         }
+    }
+
+    // method to delete a parking slot using index number
+    public void deleteSlot(int index) {
+        carPark.remove(index);
     }
 
     // method to get info about a parking slot

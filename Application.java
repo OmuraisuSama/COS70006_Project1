@@ -19,6 +19,7 @@ public class Application {
                     break;
                 case 2:
                     System.out.println("You want to delete a parking slot");
+                    logics.deleteParkingSlot(carPark);
                     break;
                 case 3:
                     System.out.println("You want to list all parking slots.");
