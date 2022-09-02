@@ -23,6 +23,7 @@ public class Application {
                     break;
                 case 3:
                     System.out.println("You want to list all parking slots.");
+                    logics.listSlots(carPark);
                     break;
                 case 4:
                     System.out.println("You want to park a car.");

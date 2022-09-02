@@ -54,7 +54,15 @@ public class CarPark {
 
     // method to get info about a parking slot
     // param: index number of the parking slot in carPark
-    // return {parking slot number, rego number, fName, lName, type, parking starts, parking duration}
+    // return String []:
+    // [0] String: parking slot number
+    // if parking lot is occupied:
+    // [1] String: registration number of the car
+    // [2] String: first name of owner
+    // [3] String: last name of owner
+    // [4] String: "staff" or "visitor"
+    // [5] String: when parked
+    // [6] String: parking duration
     public String [] getSlotInfo(int slotIndex) {
         ParkingSlot currentSlot = getParkingSlot(slotIndex);
         String slotNumber = currentSlot.getSlotNumber();

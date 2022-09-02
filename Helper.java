@@ -66,6 +66,39 @@ public class Helper {
         return result;
     } // close millisecToTime() method
 
+    // method to cut down string to a fixed number of characters
+    // if too long, cut down
+    // if too short, add padding
+    public String limitStr(String input, String padding, int strLength) {
+        int len = input.length();
+        // result to be returned
+        String result = "";
+        // padding left and right
+        String rightPaddingStr = "";
+        String leftPaddingStr = "";
+        // length of padding
+        int rightPaddingLen;
+        int leftPaddingLen;
+
+        // if input is longer than limit
+        if (len > strLength) {
+            for (int i = 0; i < len - 3; i ++) {
+                result += input.charAt(i);
+                System.out.println(result);
+            }
+            result += "...";
+        } else {
+            // if input is shorter than limit
+            leftPaddingLen = (int)((strLength - len) / 2);
+            rightPaddingLen = strLength - leftPaddingLen - len;
+            // add left padding
+            for (int i = 0; i < leftPaddingLen; i ++) leftPaddingStr += padding;
+            // add right padding
+            for (int i = 0; i < rightPaddingLen; i ++) rightPaddingStr += padding;
+            result = leftPaddingStr + input + rightPaddingStr;
+        }
+        return result;
+    }
 
     
 

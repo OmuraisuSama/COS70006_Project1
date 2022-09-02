@@ -8,7 +8,9 @@ public class Logics {
     private ArrayList<String> yes = new ArrayList<String>() {{add("yes"); add("y");}};
     private ArrayList<String> no = new ArrayList<String>() {{add("no"); add("n");}};
     private String errorMessageYN = "Enter \"y\" or \"n\" only.";
+    private Helper helper = new Helper();
 
+    // -------------------------- Option 1 --------------------------
     // Add a parking slot
     // Ask user for the following info:
     // - New parking slot number
@@ -62,6 +64,7 @@ public class Logics {
         } while (invalidSlotNo);
     }
 
+    // -------------------------- Option 2 --------------------------
     // Delete parking slot
     // Ask user for the following info:
     // - Parking slot number to delete
@@ -127,6 +130,35 @@ public class Logics {
         } // close if (!invalidSlot)
     }
 
+    // -------------------------- Option 3 --------------------------
+    // method to list info of all slot numbers
+    public void listSlots(CarPark carPark) {
+        int size = carPark.getSize();
+        // print header
+        System.out.println("==========================================================================================================================");
+        System.out.println("|| Slot ID | Registration number | First name | Last name |   Type   |           Start          |        Duration       ||");
+        System.out.println("||---------|---------------------|------------|-----------|----------|--------------------------|-----------------------||");
+        // loop through every parking slot in carPark
+        for (int i = 0; i < size; i ++) {
+            boolean isOccupied = carPark.getParkingSlot(i).isOccupied();
+            String [] info = carPark.getSlotInfo(i);
+            String slotNumber = helper.limitStr(info[0], " ", 7);
+            String regoNumber;
+            if (!isOccupied) regoNumber = info[1]; else regoNumber = "Vacant";
+            regoNumber = helper.limitStr(regoNumber, " ", 19);
+            String fName = helper.limitStr(info[2], " ", 10);
+            String lName = helper.limitStr(info[3], " ", 9);
+            String type = helper.limitStr(info[4], " ", 8);
+            String start = helper.limitStr(info[5], " ", 24); 
+            String duration = helper.limitStr(info[6], " ", 21);
+            // print result
+            System.out.println("|| " + slotNumber + " | " + regoNumber + " | " + fName + " | " + lName + " | " + type + " | " + start + " | " + duration + " ||");
+        }
+    }
+
+    
+
+
     // method to evaluate y/n result
     public String evaluateYN(ArrayList<String> yes, ArrayList<String> no, String input) {
         // evaluate if input is yes
@@ -145,6 +177,7 @@ public class Logics {
         return null;
     }
 
+    
 
     // ------------------- checkSlotNumber() ------------------------
     // method to check the validity of parking slot number
