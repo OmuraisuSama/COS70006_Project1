@@ -16,7 +16,7 @@ public class ParkingSlot {
     private String strParkingEnds;
     private String strParkingDuration;
 
-    private Car car;
+    private Car car = new Car();
     private boolean isOccupied;
     private Helper helper = new Helper();
 
@@ -81,7 +81,7 @@ public class ParkingSlot {
 
     // method to remove car
     public String[] removeCar() {
-        this.car = null;
+
         String regoNumber = car.getRegoNumber();
         isOccupied = false;
         // get time of leaving in ms and String
@@ -90,8 +90,8 @@ public class ParkingSlot {
         // get duration in ms and convert duration to String
         msParkingDuration = msParkingEnds - msParkingStarts;
         strParkingDuration = helper.millisecToTime(msParkingDuration);
-
         String [] result = {regoNumber, strParkingStarts, strParkingEnds, strParkingDuration};
+        this.car = null;
         return result;
     }
 }

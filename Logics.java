@@ -5,10 +5,14 @@ import java.util.ArrayList;
 
 public class Logics {
     private Scanner sc = new Scanner(System.in);
-    private ArrayList<String> yes = new ArrayList<String>() {{add("yes"); add("y");}};
-    private ArrayList<String> no = new ArrayList<String>() {{add("no"); add("n");}};
+    private final ArrayList<String> yes = new ArrayList<String>() {{add("yes"); add("y");}};
+    private final ArrayList<String> no = new ArrayList<String>() {{add("no"); add("n");}};
     private String errorMessageYN = "Enter \"y\" or \"n\" only.";
     private Helper helper = new Helper();
+    private final String regoFormat = "^[A-Z]{1}[0-9]{4}$";
+    private final String slotFormat = "^[A-Z]{1}[0-9]{2}$";
+    private Pattern regoPattern = Pattern.compile(regoFormat);
+    private Pattern slotPattern = Pattern.compile(slotFormat);
 
     // -------------------------- Option 1 --------------------------
     // Add a parking slot
@@ -16,52 +20,20 @@ public class Logics {
     // - New parking slot number
     // - Whether the parking slot is for staff
     // Logics: Check whether number entered is correct
-    // Use: CarPark.addParkingSLot(String slotNumber, boolean forStaff)
+    // - use takeYNResponse() to get user's answer regarding if this slot is for staff
+    // - use takeInfo() to get user's entered slot number & check the format of input
+    // - use exist() to check whether the slot number has already existed in the car park.
     public void addParkingSlot(CarPark carPark) {
-        String userInput;
-        boolean invalidYesNo = true;
-        boolean invalidSlotNo = true;
-        String checkResult;
-        String message = "";
-        boolean forStaff = true;
-        
+        String slotNumber;
         // ask user if the parking slot is for staff
-        do {
-            System.out.println("Is this parking slot for staff (y/n)");
-            userInput = sc.next();
-            // check for valid y/n answer
-            if (evaluateYN(yes, no, userInput) == "n") {
-                message = "This parking slot will be for visitor";
-                forStaff = false;
-                invalidYesNo = false;
-            } else if (evaluateYN(yes, no, userInput) == "y") {
-                message = "This parking slot will be for staff";
-                invalidYesNo = false;
-            } else {
-                System.out.print(errorMessageYN);
-            }
-            System.out.println(message);
-        } while (invalidYesNo);
+        boolean forStaff = takeYNResponse(yes, no, "Is this parking slot for staff (y/n)? ");
 
-        // check if the slot number entered is valid
-        // right format + is not yet created
-        do {
-            System.out.println("Enter the new parking slot number:");
-            userInput = sc.next();
-            checkResult = checkSlotNumber(userInput, carPark);
-
-            if (checkResult.equals("incorrect")) {
-                message = "The parking slot number should contain an uppcase letter\nfollowed by two digits.";
-            } else if (checkResult.equals("unavailable")) {
-                message = "This number has already been assigned to a parking slot";
-            } else if (checkResult.equals("available")) {
-                invalidSlotNo = false;
-                ParkingSlot parkingSlot = new ParkingSlot(userInput, forStaff);
-                carPark.addParkingSlot(parkingSlot);
-                message = "Parking slot " + userInput + " has been created";
-            }
-            System.out.println(message);
-        } while (invalidSlotNo);
+        slotNumber = takeInfo("slot", true); // get the slot number of the right format
+        if (exists(carPark, "slot", slotNumber)) { // if slot number already exists
+            System.out.println("Error: " + slotNumber + " already exists in the car park.");
+        } else {
+            carPark.addParkingSlot(slotNumber, forStaff);
+        }
     }
 
     // -------------------------- Option 2 --------------------------
@@ -72,62 +44,35 @@ public class Logics {
     // - Check whether the parking slot to be deleted is valid
     // - Check whether the parking slot is occupied, break if it is
     public void deleteParkingSlot(CarPark carPark) {
-        String inputSlot;
-        boolean invalidSlot = true;
-        boolean invalidYN = true;
-        String inputYN;
+        String slotNumber;
         boolean isOccupied;
-        String checkResult;
-        ParkingSlot parkingSlot;
+        String regoNumber;
+        boolean removeCar = false;
+        String [] carInfo;
+        ParkingSlot currentSlot;
         // prompt user for parking slot number
-        System.out.println("Enter the parking slot number to be deleted");
-        // evaluate the format of input & whether the parking slot exists
-        do {
-            inputSlot = sc.next();
-            checkResult = checkSlotNumber(inputSlot, carPark);
-            if (checkResult.equals("available")) {
-                System.out.println("Slot " + inputSlot + " does not exist");
-            } else if (checkResult.equals("unavailable")) { 
-                // "unavailable" means that the same slot number exists
-                invalidSlot = false;
-            } else if (checkResult.equals("incorrect")) {
-                System.out.println("Parking slot number should contain an uppercase letter\nfollowed by two digits");
-            }
-        } while (invalidSlot);
+        slotNumber = takeInfo("slot", true);
 
-        // continue if parking slot number enter by user is valid
-        if (!invalidSlot) {
-            parkingSlot = carPark.getParkingSlot(inputSlot);
-            isOccupied = parkingSlot.isOccupied();
-            // check if the car park is occupied
-            // if yes, remove the car
-            if (isOccupied) {
-                String regoNumber = parkingSlot.getRegoNumber();
-                System.out.println(regoNumber + " is currently parked in " + inputSlot);
-                System.out.println("Do you want to remove " + regoNumber + " before deleting " + inputSlot + "?");
-                do {
-                    inputYN = sc.next();
-                    // if user wants to remove the car
-                    if (evaluateYN(yes, no, inputYN) == "y") {
-                        String [] output = parkingSlot.removeCar();
-                        System.out.println(regoNumber + "parked for " + output[3] + " has been removed");
-                        carPark.deleteSlot(inputSlot);
-                        invalidYN = false;
-                    } else if (evaluateYN(yes, no, inputYN) == "n") {
-                        // if user does not want to remove the car
-                        System.out.println(inputSlot + " will not be deleted.");
-                        invalidYN = false;
-                        break;
-                    } else {
-                        System.out.println(errorMessageYN);
-                    }
-                } while (invalidYN);
-            } // close if (isOccupied)
-            
-            // delete the parking slot
-            carPark.deleteSlot(inputSlot);
-            System.out.println(inputSlot + " has been deleted.");
-        } // close if (!invalidSlot)
+        if (!exists(carPark, "slot", slotNumber)) { // if parking slot does not exist
+            System.out.println(slotNumber + " does not exist");
+        } else { // if parking slot exists
+            currentSlot = carPark.getParkingSlot(slotNumber);
+            isOccupied = currentSlot.isOccupied();
+            if (isOccupied) { // check if the parking slot is occupied
+                regoNumber = currentSlot.getRegoNumber();
+                System.out.println(regoNumber + " is currently parked in " + slotNumber);
+                // ask if user wants to remove the car and delete the parking slot
+                removeCar = takeYNResponse(yes, no, "Do you want to remove " + regoNumber + " (y/n)?");
+                if (removeCar) { // if yes to remove car
+                    carInfo = currentSlot.removeCar(); // remove car
+                    System.out.println(regoNumber + " which parked at " + slotNumber + " for " + carInfo[3] + " has been removed.");
+                    carPark.deleteSlot(slotNumber); // delete slot
+                    System.out.println(slotNumber + " has been deleted from your car park.");
+                } else { // if no
+                    System.out.print("Returning to main menu.");
+                }
+            }
+        }
     }
 
     // -------------------------- Option 3 -------------------------- 
@@ -170,22 +115,116 @@ public class Logics {
         String regoNumber;
         String fName;
         String lName;
-        boolean isStaff;
+        String slotNumber;
+        boolean staff;
+        Car car = new Car();
+        boolean invalidInput = true;
+        boolean isOccupied = true;
+
         // prompt user for information & evaluate information
         // registration number:
-        System.out.print("Enter the registration number of the car: ");
-        regoNumber = takeRegoNumber(carPark);
+        regoNumber = takeInfo("rego", true);
+        car.setRegoNumber(regoNumber);
         // owner name
         System.out.print("Enter the owner's first name: ");
         fName = sc.next();
         System.out.print("Enter the owner's last name: ");
         lName = sc.next();
+        car.setNames(fName, lName);
         // is owner a staff
-        isStaff = takeYNResponse(yes, no, "Is the owner a staff (y/n)? ");
-        // which car park?
+        staff = takeYNResponse(yes, no, "Is the owner a staff (y/n)? ");
+        car.setIsStaff(staff);
 
+        // which car park?
+        do {
+            System.out.println("Enter the parking slot number to park " + regoNumber);
+            System.out.println("Leave blank to park at the next available slot");
+            slotNumber = sc.next();
+
+            if (slotNumber.equals("")){
+                slotNumber = carPark.searchAvailable(staff);
+                if (slotNumber.equals("none")) {
+                    System.out.print("There is no parking slot available.");
+                    System.out.print("Please create another parking slot.");
+                    break;
+                } else invalidInput = false;
+            } else if (exists(carPark, "slot", slotNumber)) {
+                boolean forStaff = carPark.getParkingSlot(slotNumber).isForStaff();
+                isOccupied = carPark.getParkingSlot(slotNumber).isOccupied();
+                if (!isOccupied) { // if parking slot is vacant
+                    if (forStaff != staff) { // if staff and visitor status of car does not match parking slot's
+                        if (forStaff) System.out.println("This parking lot is for staff only.");
+                        if (!forStaff) System.out.println("This parking lot is for visitor only.");
+                    } else {
+                        invalidInput = false;
+                    }
+                } else { // if parking slot is occupied
+                    System.out.println(slotNumber + " is currently occupied.");
+                }
+            }
+        } while (invalidInput);
+
+        // park the car
+        carPark.getParkingSlot(slotNumber).setCar(car);
     }
 
+
+    // method to evaluate format slot number and rego number
+    public boolean correctFormat(String input, String type) {
+        boolean correctFormat = false;
+        Matcher matcher;
+        if (type.equals("rego")) {
+            matcher = regoPattern.matcher(input);
+            if (matcher.find()) correctFormat = true;
+        } else if (type.equals("slot")) {
+            matcher = slotPattern.matcher(input);
+            if (matcher.find()) correctFormat = true;
+        }
+
+        return correctFormat;
+    }
+
+    // method to check format for car rego number and slot number
+    public String takeInfo(String type, boolean prompt) {
+        String result = "";
+        boolean invalidInput = true;
+        String promptMessage = "";
+        String errorMessage = "";
+        Matcher matcher;
+        if (type.equals("rego")) {
+            promptMessage = "Enter a registration number: ";
+            errorMessage = "A registration number should contain an uppercase letter followed by four digits.";
+        } else if (type.equals("slot")) {
+            promptMessage = "Enter a slot number: ";
+            errorMessage = "A slot number should contain an uppercase letter followed by two digits.";
+        }
+        do {
+            // prompt and take user input to result
+            if (prompt) System.out.print(promptMessage);
+            result = sc.next();
+            // match the user input with the format
+            if (type.equals("rego") && correctFormat(result, "rego")) {
+                invalidInput = false;
+            } else if (type.equals("slot") && correctFormat(result, "slot")) {
+                invalidInput = false;
+            }
+            // if format is incorrect, print error
+            if (invalidInput) System.out.print(errorMessage);
+        } while (invalidInput);
+        return result;
+    }
+
+    // method to check whether the rego/slot number already exists
+    public boolean exists(CarPark carPark, String type, String info) {
+        boolean exists = false;
+        ParkingSlot currentSlot;
+        for (int i = 0; i < carPark.getSize(); i ++) {
+            currentSlot = carPark.getParkingSlot(i);
+            if (type == "rego" && currentSlot.getRegoNumber().equals(info)) exists = true;
+            if (type == "slot" && currentSlot.getSlotNumber().equals(info)) exists = true;
+        }
+        return exists;
+    }
 
     // method to evaluate y/n result
     public boolean takeYNResponse(ArrayList<String> yes, ArrayList<String> no, String question) {
@@ -215,88 +254,4 @@ public class Logics {
         System.out.print("ERROR: out of takeYNResponse loop");
         return false;
     }
-
-    
-
-    // ------------------- checkSlotNumber() ------------------------
-    // method to check the validity of parking slot number
-    // whether it is of the right format, eg. A10, B02
-    // AND whether it has already been added to the car park
-    // return "available" if the slot number is of correct format and hasn't been added
-    // return "unavailable" if the slot number is of correct format but has already been added
-    // return "incorrect" if the slot number provided is of the wrong format
-    public String takeSlotNumber(CarPark carPark) {
-        String slotNumber;
-        // regex of slot number format
-        final String slotNumberRegex = "^[A-Z]{1}[0-9]{2}$";
-        // compile the regex string
-        Pattern pattern = Pattern.compile(slotNumberRegex);
-
-        do {
-            System.out.print("Enter the parking slot number: ");
-            slotNumber = sc.next();
-            Matcher matcher = pattern.matcher(slotNumber);
-            // if the slotNumber param has the correct format
-            if (matcher.find()) {
-                // loop through carPark to check if the slot number is already taken
-                for (int i = 0; i < carPark.getSize(); i ++) {
-                    // the parking slot number in the current iteration
-                    String currentSlotNumber = carPark.getParkingSlot(i).getSlotNumber();
-                    // if the same slot number is already in carPark, return "unavailable"
-                    if (currentSlotNumber.equals(slotNumber)) {
-                        return "unavailable";
-                    } // close if
-                } // close for
-                // if slot number hasn't already been added to carPark, return "available"
-                return "available";
-            } // close if(matcher.find())
-            // return "incorrect" because the slotNumber param is not in the correct format
-            return"incorrect";
-        }
-        
-    } // close checkSlotNumber() method
-
-
-    // ------------------- checkRegoNumber() ------------------------
-    // method to check the validity of rego number
-    // whether it is of the right format, eg. T2345
-    // AND whether it has already been added to the car park
-    // return "available" if the rego is of correct format and hasn't been added
-    // return "unavailable" if the rego is of correct format but has already been added
-    // return "incorrect" if the rego provided is of the wrong format
-    public String takeRegoNumber(CarPark carPark) {
-        String regoNumber;
-        boolean invalidInput = true;
-
-        // declare the regex format for rego number
-        final String regoNumberRegex = "^[A-Z]{1}[1-9]{4}$";
-        // compile and match the patter to regoNumber
-        Pattern pattern = Pattern.compile(regoNumberRegex);
-        
-        do {
-            System.out.print("Enter the car's registration number: ");
-            regoNumber = sc.next();
-            Matcher matcher = pattern.matcher(regoNumber);
-            // if the regoNumber is of correct format
-            if (matcher.find()) {
-                // loop through carPark to find if the same regoNumber has been parked
-                for (int i = 0; i < carPark.getSize(); i ++) {
-                    // declare the current rego number in the loop
-                    String currentRegoNumber = carPark.getParkingSlot(i).getRegoNumber();
-                    // if the current rego number is the same as the param
-                    // the rego number has already been parked
-                    if (currentRegoNumber.equals(regoNumber)) {
-                        String currentSlotNumber = carPark.getParkingSlot(i).getSlotNumber();
-                        System.out.println(regoNumber + " is currently parked in " + currentSlotNumber);
-                        continue;
-                    }
-                } // close for()
-                invalidInput = false;
-                return regoNumber;
-            } else {
-                System.out.println("Registration number should contain an uppercase letter followed by two digits.");
-            } // close if (matcher.find())
-        } while (invalidInput);
-        return regoNumber;
-    } // close checkRegoNumber() method
 }

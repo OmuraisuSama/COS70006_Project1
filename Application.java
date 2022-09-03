@@ -27,6 +27,7 @@ public class Application {
                     break;
                 case 4:
                     System.out.println("You want to park a car.");
+                    logics.parkCar(carPark);
                     break;
                 case 5:
                     System.out.println("You want to search for a car.");

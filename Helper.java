@@ -43,13 +43,11 @@ public class Helper {
         // for example: 2H:23M:00S instead of 00D:2H:23M:00S (we don't want to have 0 days)
         // however we want to show the minute event if it's zero (eg, 00m.23s)
         // the minute value is the third value in intArrResult -> index = 2
-        int nonZeroIndex = 2;
+        int nonZeroIndex = 2; // default to minute value in intArrResult
         // find the first non zero time unit
         for (int i = 0; i < intArrResult.length; i ++) {
             if (intArrResult[i] > 0) {
-//------------- System.out.println("i " + i); // test
                 nonZeroIndex = i;
-//--------------System.out.println("nonZeroIndex: " + nonZeroIndex); // test
                 break;
             }
             
@@ -57,7 +55,7 @@ public class Helper {
         // format the final result
         for (int i = nonZeroIndex; i < intArrResult.length; i ++) {
             // add 0 to number less than 10
-            if (intArrResult[i] < 10) {
+            if (intArrResult[i] < 10 && i != 0) {
                 result += "0";
             }
             result += intArrResult[i] + unitArr[i];
@@ -67,8 +65,9 @@ public class Helper {
     } // close millisecToTime() method
 
     // method to cut down string to a fixed number of characters
-    // if too long, cut down
-    // if too short, add padding
+    // e.g. String "This is the string"
+    // if too long, cut down to limit + add "...": "This is a ..."
+    // if too short, add padding: "     This is a String     "
     public String limitStr(String input, String padding, int strLength) {
         int len = input.length();
         // result to be returned
@@ -82,9 +81,8 @@ public class Helper {
 
         // if input is longer than limit
         if (len > strLength) {
-            for (int i = 0; i < len - 3; i ++) {
+            for (int i = 0; i < strLength - 3; i ++) {
                 result += input.charAt(i);
-                System.out.println(result);
             }
             result += "...";
         } else {
@@ -100,8 +98,45 @@ public class Helper {
         return result;
     }
 
-    
+    // use to print lines
+    public void printLine(String line, int times, boolean newline) {
+        String result = "";
+        for (int i = 0; i < times; i ++) {
+            result += line;
+        }
+        if (newline) {
+            System.out.println(result);
+        } else {
+            System.out.print(result);
+        }
+    }
 
+    // use to print different header
+    public void printHeader(String type) {
+        String headings = "";
+        switch (type) {
+            case "main menu":
+                // to be completed;
+                break;
+            case "list slots":
+                // print first line
+                printLine("=", 111, true);
+                // form & print headings
+                headings = "||" + limitStr("Slot ID", " ", 9);
+                headings += "|" + limitStr("Parking", " ", 9);
+                headings += "|" + limitStr("First name", " ", 12);
+                headings += "|" + limitStr("Last name", " ", 12);
+                headings += "|" + limitStr("Type", " ", 10);
+                headings += "|" + limitStr("Start", " ", 31);
+                headings += "|" + limitStr("Duration", " ", 18) + "||";
+                System.out.println(headings);
+                // print line below heading
+                printLine("-", 111, true);
+                break;
+            default:
+                break;
+        }
+    }
 
     
     // display main menu

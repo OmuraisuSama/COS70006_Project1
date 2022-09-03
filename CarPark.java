@@ -2,9 +2,32 @@ import java.util.ArrayList;
 public class CarPark {
     private ArrayList<ParkingSlot> carPark = new ArrayList<ParkingSlot>();
     
+    // search and return for the next available slot
+    public String searchAvailable(boolean forStaff) {
+        String slotNumber = "none";
+        boolean isOccupied;
+        ParkingSlot currentSlot;
+        
+        for (int i = 0; i < carPark.size(); i ++) {
+            currentSlot = carPark.get(i);
+            isOccupied = currentSlot.isOccupied();
+            if (isOccupied && currentSlot.isForStaff() == forStaff) {
+                slotNumber = currentSlot.getSlotNumber();
+            }
+        }
+        return slotNumber;
+    }
 
     // method to add new parking slot
     public void addParkingSlot(ParkingSlot parkingSlot) {
+        carPark.add(parkingSlot);
+    }
+
+    // method to add new parking slot with more info
+    public void addParkingSlot(String slotNumber, boolean forStaff) {
+        ParkingSlot parkingSlot = new ParkingSlot();
+        parkingSlot.setSlotNumber(slotNumber);
+        parkingSlot.setForStaff(forStaff);
         carPark.add(parkingSlot);
     }
 
@@ -79,8 +102,9 @@ public class CarPark {
             fName = currentSlot.getCar().getFirstName();
             lName = currentSlot.getCar().getLastName();
 
-            if (currentSlot.getCar().isStaff()) type = "staff";
-            else type = "visitor";
+            if (currentSlot.getCar().isStaff()) {
+                type = "staff";
+            } else type = "visitor";
 
             parkingStarts = currentSlot.getParkingStarts();
             parkingDuration = currentSlot.getDuration();

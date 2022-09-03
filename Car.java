@@ -13,6 +13,8 @@ public class Car {
         this.isStaff = isStaff;
     }
 
+    public Car() {};
+
     // =========== END CONSTRUCTORS ============
 
     // --------------- GETTERS -----------------
