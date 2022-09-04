@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class CarPark {
     private ArrayList<ParkingSlot> carPark = new ArrayList<ParkingSlot>();
-    
+
     // search and return for the next available slot
     public String searchAvailable(boolean forStaff) {
         String slotNumber = "none";
@@ -11,7 +11,7 @@ public class CarPark {
         for (int i = 0; i < carPark.size(); i ++) {
             currentSlot = carPark.get(i);
             isOccupied = currentSlot.isOccupied();
-            if (isOccupied && currentSlot.isForStaff() == forStaff) {
+            if (!isOccupied && currentSlot.isForStaff() == forStaff) {
                 slotNumber = currentSlot.getSlotNumber();
             }
         }
@@ -101,13 +101,15 @@ public class CarPark {
             regoNumber = currentSlot.getRegoNumber();
             fName = currentSlot.getCar().getFirstName();
             lName = currentSlot.getCar().getLastName();
-
-            if (currentSlot.getCar().isStaff()) {
-                type = "staff";
-            } else type = "visitor";
-
+            // retrieve parking time
             parkingStarts = currentSlot.getParkingStarts();
             parkingDuration = currentSlot.getDuration();
+        }
+        // check if parking slot is for staff
+        if (currentSlot.isForStaff()) {
+            type = "staff";
+        } else {
+            type = "visitor";
         }
 
         String [] result = {slotNumber, regoNumber, fName, lName, type, parkingStarts, parkingDuration};

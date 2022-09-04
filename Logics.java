@@ -79,26 +79,34 @@ public class Logics {
     // method to list info of all slot numbers
     public void listSlots(CarPark carPark) {
         int size = carPark.getSize();
-        // print header
-        helper.printHeader("list slots");
-        // loop through every parking slot in carPark
-        for (int i = 0; i < size; i ++) {
-            boolean isOccupied = carPark.getParkingSlot(i).isOccupied();
-            String [] info = carPark.getSlotInfo(i);
-            String slotNumber = helper.limitStr(info[0], " ", 9);
-            String regoNumber;
-            if (!isOccupied) regoNumber = info[1]; else regoNumber = "Vacant";
-            regoNumber = helper.limitStr(regoNumber, " ", 9);
-            String fName = helper.limitStr(info[2], " ", 12);
-            String lName = helper.limitStr(info[3], " ", 12);
-            String type = helper.limitStr(info[4], " ", 10);
-            String start = helper.limitStr(info[5], " ", 31); 
-            String duration = helper.limitStr(info[6], " ", 18);
-            // print result
-            System.out.println("||" + slotNumber + "|" + regoNumber + "|" + fName + "|" + lName + "|" + type + "|" + start + "|" + duration + "||");
+        // if carPark is empty
+        if (size == 0) {
+            System.out.println("The car park currently has no parking slot.");
+        } else {
+            // print header
+            helper.printHeader("list slots");
+            // loop through every parking slot in carPark
+            for (int i = 0; i < size; i ++) {
+                String [] info = carPark.getSlotInfo(i);
+                String slotNumber = helper.limitStr(info[0], " ", 9);
+                String regoNumber;
+                if (carPark.getParkingSlot(i).isOccupied()) {
+                    regoNumber = info[1];
+                } else {
+                    regoNumber = "vacant";
+                }
+                regoNumber = helper.limitStr(regoNumber, " ", 9);
+                String fName = helper.limitStr(info[2], " ", 12);
+                String lName = helper.limitStr(info[3], " ", 12);
+                String type = helper.limitStr(info[4], " ", 10);
+                String start = helper.limitStr(info[5], " ", 31); 
+                String duration = helper.limitStr(info[6], " ", 18);
+                // print result
+                System.out.println("||" + slotNumber + "|" + regoNumber + "|" + fName + "|" + lName + "|" + type + "|" + start + "|" + duration + "||");
+            }
+            // print final line
+            helper.printLine("=", 111, true);
         }
-        // print final line
-        helper.printLine("=", 111, true);
     }
 
     // -------------------------- Option 4 --------------------------
@@ -121,51 +129,63 @@ public class Logics {
         boolean invalidInput = true;
         boolean isOccupied = true;
 
-        // prompt user for information & evaluate information
-        // registration number:
-        regoNumber = takeInfo("rego", true);
-        car.setRegoNumber(regoNumber);
-        // owner name
-        System.out.print("Enter the owner's first name: ");
-        fName = sc.next();
-        System.out.print("Enter the owner's last name: ");
-        lName = sc.next();
-        car.setNames(fName, lName);
-        // is owner a staff
-        staff = takeYNResponse(yes, no, "Is the owner a staff (y/n)? ");
-        car.setIsStaff(staff);
+        // check if there is any available car park before prompting user to enter info
+        if (carPark.searchAvailable(true) != "none" || carPark.searchAvailable(false) != "none") {
+            // prompt user for information & evaluate information
+            // registration number:
+            regoNumber = takeInfo("rego", true);
+            car.setRegoNumber(regoNumber);
+            // owner name
+            System.out.print("Enter the owner's first name: ");
+            fName = sc.next();
+            System.out.print("Enter the owner's last name: ");
+            lName = sc.next();
+            car.setNames(fName, lName);
+            // is owner a staff
+            staff = takeYNResponse(yes, no, "Is the owner a staff (y/n)? ");
+            car.setIsStaff(staff);
 
-        // which car park?
-        do {
-            System.out.println("Enter the parking slot number to park " + regoNumber);
-            System.out.println("Leave blank to park at the next available slot");
-            slotNumber = sc.next();
-
-            if (slotNumber.equals("")){
-                slotNumber = carPark.searchAvailable(staff);
-                if (slotNumber.equals("none")) {
-                    System.out.print("There is no parking slot available.");
-                    System.out.print("Please create another parking slot.");
-                    break;
-                } else invalidInput = false;
-            } else if (exists(carPark, "slot", slotNumber)) {
-                boolean forStaff = carPark.getParkingSlot(slotNumber).isForStaff();
-                isOccupied = carPark.getParkingSlot(slotNumber).isOccupied();
-                if (!isOccupied) { // if parking slot is vacant
-                    if (forStaff != staff) { // if staff and visitor status of car does not match parking slot's
-                        if (forStaff) System.out.println("This parking lot is for staff only.");
-                        if (!forStaff) System.out.println("This parking lot is for visitor only.");
-                    } else {
-                        invalidInput = false;
+            // check if there is any available parking:
+            slotNumber = carPark.searchAvailable(staff);
+            if (!slotNumber.equals("none")) {
+               // if there is available parking which one?
+               do {
+                // prompt user to enter parking slot number
+                System.out.println("Enter the parking slot number to park " + regoNumber);
+                slotNumber = sc.next();
+                // if slot entered exists
+                if (exists(carPark, "slot", slotNumber)) {
+                    boolean forStaff = carPark.getParkingSlot(slotNumber).isForStaff();
+                    isOccupied = carPark.getParkingSlot(slotNumber).isOccupied();
+                    if (!isOccupied) { // if parking slot is vacant
+                        if (forStaff != staff) { // if staff and visitor status of car does not match parking slot's
+                            if (forStaff) System.out.println("This parking lot is for staff only.");
+                            if (!forStaff) System.out.println("This parking lot is for visitor only.");
+                        } else {
+                            invalidInput = false;
+                        }
+                    } else { // if parking slot is occupied
+                        System.out.println(slotNumber + " is currently occupied.");
                     }
-                } else { // if parking slot is occupied
-                    System.out.println(slotNumber + " is currently occupied.");
+                } else {
+                    // if slot entered does not exist
+                    System.out.println(slotNumber + " does not exist");
                 }
-            }
-        } while (invalidInput);
+            } while (invalidInput);
+            // park the car
+            carPark.getParkingSlot(slotNumber).setCar(car);
+            } else {
+                // if no parking for staff or visitor
 
-        // park the car
-        carPark.getParkingSlot(slotNumber).setCar(car);
+                if (staff) System.out.println("There is no parking for staff available.");
+                if (!staff) System.out.println("There is no parking for visitor available.");
+                System.out.println("Please create another parking slot.");
+            }   
+        } else {
+            // if no parking is available
+            System.out.println("There is no parking slot available.");
+            System.out.println("Please create another parking slot.");
+        }
     }
 
 
@@ -190,7 +210,6 @@ public class Logics {
         boolean invalidInput = true;
         String promptMessage = "";
         String errorMessage = "";
-        Matcher matcher;
         if (type.equals("rego")) {
             promptMessage = "Enter a registration number: ";
             errorMessage = "A registration number should contain an uppercase letter followed by four digits.";
@@ -203,11 +222,14 @@ public class Logics {
             if (prompt) System.out.print(promptMessage);
             result = sc.next();
             // match the user input with the format
+            // if info entered is for rego number
             if (type.equals("rego") && correctFormat(result, "rego")) {
                 invalidInput = false;
+            // if info entered is for parking slot number
             } else if (type.equals("slot") && correctFormat(result, "slot")) {
                 invalidInput = false;
             }
+
             // if format is incorrect, print error
             if (invalidInput) System.out.print(errorMessage);
         } while (invalidInput);
@@ -249,7 +271,7 @@ public class Logics {
                 }
             }
             // if input is invalid
-            System.out.println ("Enter \"y\" or \"n\" only.");
+            System.out.println (errorMessageYN);
         } while (invalidResponse);
         System.out.print("ERROR: out of takeYNResponse loop");
         return false;
