@@ -1,6 +1,29 @@
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
+/*
+ * ParkingSlot class
+ * @description: getter and setter method for the class ParkingSlot
+ * - Instance variable:
+ * |- slotNumber: the parking slot number
+ * |- forStaff: true if the parking stot is for staff, false for visitor
+ * |- msParkingDuration: duration of parking in milliseconds
+ * |- msParkingStarts & msParkingEnds: used to calculate msParkingDuration
+ * |- dateTimeFormat: regular expression to format the the parking duration in readable format
+ * |- dtf: datetime formatter
+ * |- strParkingStarts: String formatted datetime of when parking starts
+ * |- strParkingEnds: String formatted datetime of when parking ends
+ * |- strParkingDuration: String formatted datetime of parking duration
+ * |- car: Car object containing information of the car parked in the parking slot
+ * |- isOccupied: true if there's a car currently park in the slot, false otherwise
+ * |- helper: an instance of Helper class object
+ * 
+ * @author: Peter LUONG - 1038 11153
+ * @version: JRE-17
+ * @date: 11 Sep 2022
+ * @unit: COS70006 - Object-Oriented Programming
+ */
+
 public class ParkingSlot {
     private String slotNumber;
     private boolean forStaff;
@@ -52,7 +75,7 @@ public class ParkingSlot {
         if (isOccupied) {
             return car.getRegoNumber();
         }
-        return null;
+    return "none";
     }
 
     public boolean isOccupied() {

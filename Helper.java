@@ -1,9 +1,24 @@
-
-import java.util.Scanner;
-// import java.util.ArrayList;
+/*
+ * Helper class
+ * @description: this class contains methods for printing and formatting output
+ * 
+ * - Public methods:
+ * |- millisecToTime: convert the number of miliseconds (int type) into String time (--d:--h:--m:--s). This is used to format the parking duration
+ * |- limitStr: to format text so that long text can fit in limited space in a table
+ * |- printLine: to print lines with specified type and length. This is used in displaying table
+ * |- appPrint: to print menu and headings
+ * |- printError: to print error message
+ * |- printQuestion: to print question prompting user for input
+ * |- printConfirm: to print confirmation messages
+ * 
+ * @author: Peter LUONG - 1038 11153
+ * @version: JRE-17
+ * @date: 11 Sep 2022
+ * @unit: COS70006 - Object-Oriented Programming
+ */
 
 public class Helper {
-    private Scanner sc = new Scanner(System.in);
+    private final int errorLineLen = 84;
 
     // ------------------- millisecToTime() ------------------------
     // method to convert the number of milliseconds into
@@ -68,8 +83,8 @@ public class Helper {
     // e.g. String "This is the string"
     // if too long, cut down to limit + add "...": "This is a ..."
     // if too short, add padding: "     This is a String     "
-    public String limitStr(String input, String padding, int strLength) {
-        int len = input.length();
+    public String limitStr(String input, String padding, int strLimit) {
+        int inputLength = input.length();
         // result to be returned
         String result = "";
         // padding left and right
@@ -80,15 +95,15 @@ public class Helper {
         int leftPaddingLen;
 
         // if input is longer than limit
-        if (len > strLength) {
-            for (int i = 0; i < strLength - 3; i ++) {
+        if (inputLength > strLimit) {
+            for (int i = 0; i < strLimit - 3; i ++) {
                 result += input.charAt(i);
             }
             result += "...";
         } else {
             // if input is shorter than limit
-            leftPaddingLen = (int)((strLength - len) / 2);
-            rightPaddingLen = strLength - leftPaddingLen - len;
+            leftPaddingLen = (int)((strLimit - inputLength) / 2);
+            rightPaddingLen = strLimit - leftPaddingLen - inputLength;
             // add left padding
             for (int i = 0; i < leftPaddingLen; i ++) leftPaddingStr += padding;
             // add right padding
@@ -112,47 +127,69 @@ public class Helper {
     }
 
     // use to print different header
-    public void printHeader(String type) {
+    public void appPrint(String menuType) {
         String headings = "";
-        switch (type) {
+        switch (menuType) {
+
             case "main menu":
-                // to be completed;
+                printLine("=", 41, true);
+                headings = "|| Option |          Function          ||";
+                System.out.println(headings);
+                printLine("-", 41, true);
+                System.out.println("||   1    | Add a parking slot.        ||");
+                System.out.println("||   2    | Remove a parking slot      ||");
+                System.out.println("||   3    | List all the parking slots ||");
+                System.out.println("||   4    | Park a car                 ||");
+                System.out.println("||   5    | Search for a car           ||");
+                System.out.println("||   6    | Remove a car               ||");
+                System.out.println("||   7    | Quit                       ||");
+                printLine("_", 41, true);
                 break;
+            
             case "list slots":
                 // print first line
-                printLine("=", 111, true);
+                printLine("=", 115, true);
                 // form & print headings
                 headings = "||" + limitStr("Slot ID", " ", 9);
                 headings += "|" + limitStr("Parking", " ", 9);
-                headings += "|" + limitStr("First name", " ", 12);
-                headings += "|" + limitStr("Last name", " ", 12);
+                headings += "|" + limitStr("First name", " ", 14);
+                headings += "|" + limitStr("Last name", " ", 14);
                 headings += "|" + limitStr("Type", " ", 10);
                 headings += "|" + limitStr("Start", " ", 31);
                 headings += "|" + limitStr("Duration", " ", 18) + "||";
                 System.out.println(headings);
                 // print line below heading
-                printLine("-", 111, true);
+                printLine("-", 115, true);
+                break;
+
+            case "search car":
+                printLine("=", 65, true);
+                headings = "||" + limitStr("Rego number", " ", 13);
+                headings += "|" + limitStr("Parking slot", " ", 14);
+                headings += "|" + limitStr("Owner", " ", 32);
+                headings += "||";
+                System.out.println(headings);
+                printLine("-", 65, true);
                 break;
             default:
                 break;
         }
     }
 
-    
-    // display main menu
-    public int displayMenu() {
-        int userChoice;
-
-        System.out.println("1. Add a parking slot.");
-        System.out.println("2. Remove a parking slot");
-        System.out.println("3. List all the parking slots");
-        System.out.println("4. Park a car");
-        System.out.println("5. Search for a car");
-        System.out.println("6. Remove a car");
-        System.out.println("7. Quit");
-        System.out.println("Your choice: ");
-        
-        userChoice = sc.nextInt();
-        return userChoice;
+    public void printError(String errorMessage) {
+        printLine("*", errorLineLen, true);
+        System.out.println("ERROR: " + errorMessage);
+        printLine("*", errorLineLen, true);
+        System.out.println();
     }
+
+    public void printConfirm(String message) {
+        System.out.println("--> " + message);
+        System.out.println();
+    }
+
+    public void printQuestion(String question) {
+        System.out.print("// " + question + " ");
+    }
+
 }

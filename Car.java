@@ -1,3 +1,18 @@
+/*
+ * Car class
+ * @description: constructor, getter and setter method for the class Car
+ * - Instance variable:
+ * |- fName: first name of car owner
+ * |- lName: last name of car owner
+ * |- isStaff: true if the owner is a staff, false if a visitor
+ * |- regoNumber: the car's registration number
+ * 
+ * @author: Peter LUONG - 1038 11153
+ * @version: JRE-17
+ * @date: 11 Sep 2022
+ * @unit: COS70006 - Object-Oriented Programming
+ */
+
 public class Car {
     private String fName;
     private String lName;

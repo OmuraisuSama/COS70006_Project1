@@ -1,7 +1,23 @@
 import java.util.ArrayList;
+
+/*
+ * CarPark class
+ * @description: getter and setter method for the class CarPark
+ * - Instance variable:
+ * |- carPark: ArrayList of ParkingSlot objs which contain information regarding the parking slot
+ * 
+ * @author: Peter LUONG - 1038 11153
+ * @version: JRE-17
+ * @date: 11 Sep 2022
+ * @unit: COS70006 - Object-Oriented Programming
+ */
+
 public class CarPark {
     private ArrayList<ParkingSlot> carPark = new ArrayList<ParkingSlot>();
 
+
+    
+    // --------------- GETTERS -----------------
     // search and return for the next available slot
     public String searchAvailable(boolean forStaff) {
         String slotNumber = "none";
@@ -18,20 +34,6 @@ public class CarPark {
         return slotNumber;
     }
 
-    // method to add new parking slot
-    public void addParkingSlot(ParkingSlot parkingSlot) {
-        carPark.add(parkingSlot);
-    }
-
-    // method to add new parking slot with more info
-    public void addParkingSlot(String slotNumber, boolean forStaff) {
-        ParkingSlot parkingSlot = new ParkingSlot();
-        parkingSlot.setSlotNumber(slotNumber);
-        parkingSlot.setForStaff(forStaff);
-        carPark.add(parkingSlot);
-    }
-
-
     // method to return the index number of a parking slot number
     public int getIndexOf(String slotNumber) {
         for (int i = 0; i < carPark.size(); i ++) {
@@ -42,7 +44,6 @@ public class CarPark {
         }
         return -1;
     } // close getIndexOf()
-
 
     // method to return the parkingSlot object given the index number
     public ParkingSlot getParkingSlot(int index) {
@@ -58,21 +59,6 @@ public class CarPark {
     // method to return the number of parking slots
     public int getSize() {
         return carPark.size();
-    }
-
-    // method to delete a parking slot using slot number
-    public void deleteSlot(String slotNumber) {
-        int slotIndex = getIndexOf(slotNumber);
-        if (slotIndex != -1) {
-            carPark.remove(slotIndex);
-        } else {
-            System.out.println(slotNumber + " parking slot does not exist.");
-        }
-    }
-
-    // method to delete a parking slot using index number
-    public void deleteSlot(int index) {
-        carPark.remove(index);
     }
 
     // method to get info about a parking slot
@@ -116,4 +102,33 @@ public class CarPark {
         return result;
     }
 
+
+    // --------------- SETTERS -----------------
+    // method to add new parking slot
+    public void addParkingSlot(ParkingSlot parkingSlot) {
+        carPark.add(parkingSlot);
+    }
+
+    // method to add new parking slot with more info
+    public void addParkingSlot(String slotNumber, boolean forStaff) {
+        ParkingSlot parkingSlot = new ParkingSlot();
+        parkingSlot.setSlotNumber(slotNumber);
+        parkingSlot.setForStaff(forStaff);
+        carPark.add(parkingSlot);
+    }
+
+    // method to delete a parking slot using slot number
+    public void deleteSlot(String slotNumber) {
+        int slotIndex = getIndexOf(slotNumber);
+        if (slotIndex != -1) {
+            carPark.remove(slotIndex);
+        } else {
+            System.out.println(slotNumber + " parking slot does not exist.");
+        }
+    }
+
+    // method to delete a parking slot using index number
+    public void deleteSlot(int index) {
+        carPark.remove(index);
+    }
 }  
